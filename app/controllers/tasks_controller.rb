@@ -28,7 +28,7 @@ class TasksController < ApplicationController
     end
     
     def update 
-        @task - Task.find(params[:id])
+        @task = Task.find(params[:id])
         
         if @task.update(task_params)
             flash[:success] = 'Task は正常に更新されました'
@@ -47,11 +47,11 @@ class TasksController < ApplicationController
         redirect_to tasks_url
     end
     
-end
+    private
 
-private
-
-#Storong Parameter
-def task_params
+    #Storong Parameter
+    def task_params
     params.require(:task).permit(:content)
-end
+    end
+end    
+
