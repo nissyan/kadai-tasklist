@@ -9,10 +9,12 @@ class TasksController < ApplicationController
     
     
     def show
+        @task = current_user.tasks.find_by(id: params[:id])
         @task = Task.find(params[:id])
     end
     
     def new
+        @task = current_user.tasks.find_by(id: params[:id])
         @task = Task.new
     end
     
@@ -30,11 +32,13 @@ class TasksController < ApplicationController
     
     
     def edit
+         @task = current_user.tasks.find_by(id: params[:id])
          @task = Task.find(params[:id])
     end
     
     
     def update 
+         @task = current_user.tasks.find_by(id: params[:id])
          @task = Task.find(params[:id])
         
         if @task.update(task_params)
