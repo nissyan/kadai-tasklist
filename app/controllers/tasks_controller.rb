@@ -1,21 +1,26 @@
 class TasksController < ApplicationController
     before_action :require_user_logged_in
-   
+    before_action :correct_user 
+    
+    
     
     def index
+          if logged_in?
            @task = current_user.tasks.build  # form_for 用
            @tasks = current_user.tasks.order('created_at DESC').page(params[:page])
+          end
     end
+    
     
     
     def show
-        @task = current_user.tasks.find_by(id: params[:id])
         @task = Task.find(params[:id])
+       
     end
     
     def new
-        @task = current_user.tasks.find_by(id: params[:id])
         @task = Task.new
+        
     end
     
     def create
@@ -32,14 +37,14 @@ class TasksController < ApplicationController
     
     
     def edit
-         @task = current_user.tasks.find_by(id: params[:id])
-         @task = Task.find(params[:id])
+        @task = Task.find(params[:id])
+        #@task.edit
     end
     
     
     def update 
-         @task = current_user.tasks.find_by(id: params[:id])
          @task = Task.find(params[:id])
+        # @task.update
         
         if @task.update(task_params)
             flash[:success] = 'Task は正常に更新されました'
@@ -68,8 +73,9 @@ class TasksController < ApplicationController
     def correct_user
         @task = current_user.tasks.find_by(id: params[:id])
         unless @task
-        redirect_to tasks_url
+    #    redirect_to tasks_url
         end
-    end
+    end    
+  
 end    
 
